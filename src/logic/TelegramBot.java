@@ -11,7 +11,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class TelegramBot extends TelegramLongPollingBot implements InputOutput{
     private final String BOT_NAME = "Capricorn";
     private final String BOT_TOKEN = "658563566:AAECohdHHTskGM3StIVCtOYLVzvXHOOM7QM";
-
     private ConcurrentLinkedQueue<Request> requestQueue = new ConcurrentLinkedQueue<>();
 
     @Override
