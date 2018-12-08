@@ -19,7 +19,8 @@ public class RequestToURL
 
             String inputLine;
             while ((inputLine = br.readLine()) != null) {
-//                System.out.println(inputLine);
+                // System.out.println(inputLine);
+                inputLine = inputLine.replaceAll("&quot;", "\"");
                 list.add(inputLine);
             }
             br.close();

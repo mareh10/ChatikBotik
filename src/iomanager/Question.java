@@ -1,15 +1,15 @@
 package iomanager;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashMap;
 
 public class Question
 {
     public String Question;
-    public ArrayList<String> Variants;
+    public HashMap<Integer, String> Variants;
     public String CorrectAnswer;
 
-    public Question(String question, ArrayList<String> variants, String correctAnswer)
+    public Question(String question, HashMap<Integer, String> variants, String correctAnswer)
     {
         this.Question = question;
         this.Variants = variants;
@@ -18,9 +18,10 @@ public class Question
 
     public static String formatQuestion(Question q) {
         String s = q.Question;
-        Collections.shuffle(q.Variants);
-        for (var variant : q.Variants) {
-            s += "\n" + variant;
+        var i = 1;
+        for (var variant : q.Variants.values()) {
+            s += "\n" + i +": " + variant;
+            i = i + 1;
         }
 
 //        System.out.println(s);

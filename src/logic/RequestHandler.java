@@ -1,14 +1,14 @@
 package logic;
 
 public class RequestHandler {
-    private static final String[] GAMES = new String[] {"1. Викторина"};
+    private static final String[] GAMES = new String[] {"\n 1. Викторина"};
 
     public static String HandleRequest(Request request, User user){
         String curAnswer = "";
 
         if (user.state == State.Starting){
             user.state = State.Choosing;
-            return String.join("\n", GAMES);
+            return "Привет, я чат-бот! Поиграем?" + String.join("\n", GAMES);
         }
 
         if (user.state == State.Choosing){
