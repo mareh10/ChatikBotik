@@ -1,7 +1,7 @@
 package logic;
 
 public class RequestHandler {
-    private static final String[] GAMES = new String[] {"\n 1. Викторина"};
+    private static final String[] GAMES = new String[] {"\n 1. Викторина", " 2. Морской бой"};
 
     public static String HandleRequest(Request request, User user){
         String curAnswer = "";
@@ -16,6 +16,10 @@ public class RequestHandler {
                 case "1":
                     user.state = State.Playing;
                     user.game = new Quiz();
+                    break;
+                case "2":
+                    user.state = State.Playing;
+                    user.game = new Battleship();
                     break;
                 default:
                     return "Попробуй ещё раз:3";
