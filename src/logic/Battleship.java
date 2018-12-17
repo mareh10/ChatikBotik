@@ -41,7 +41,6 @@ public class Battleship implements Game {
         Point point;
         StringBuilder message = new StringBuilder();
 
-//        try {
         if (playerTurnFlag) {
             try {
                 point = Point.parse(msg);
@@ -66,7 +65,6 @@ public class Battleship implements Game {
                                 "Карта оппонента\n" + formatMap(hiddenEnemyMap));
                     }
                     else if (playerMap.get(point).equals(SHIP_CHAR)) {
-                        checkNearFieldForAliveShips(playerMap, playerMap, point);
                         playerMap.replace(point, HIT_CHAR);
                         message.append("Оппонент попал! \n" + "Карта: \n" + formatMap(playerMap) + "\n" +
                                 "Карта оппонента\n" + formatMap(hiddenEnemyMap));
@@ -76,7 +74,6 @@ public class Battleship implements Game {
             else if (enemyMap.get(point).equals(SHIP_CHAR)) {
                 hiddenEnemyMap.replace(point, HIT_CHAR);
                 enemyMap.replace(point, HIT_CHAR);
-                checkNearFieldForAliveShips(enemyMap, hiddenEnemyMap, point);
                 message.append("Попал! \n\n" + "Карта: \n" + formatMap(playerMap) + "\n" +
                         "Карта оппонента\n" + formatMap(hiddenEnemyMap));
             }
@@ -95,11 +92,6 @@ public class Battleship implements Game {
         }
 
         return message.toString();
-
-//        }
-//        catch (NullPointerException e){
-//            return "Error";
-//        }
     }
 
     private static Point getDirection(){
@@ -138,94 +130,6 @@ public class Battleship implements Game {
             point = point.add(direction);
         }
         return true;
-    }
-
-    private void checkNearFieldForAliveShips(Map<Point, String> map, Map<Point, String> hiddenMap, Point point) {
-        ArrayList<Point> list = new ArrayList<>();
-        boolean shipsIsNearFlag = false;
-
-        var newPoint = new Point(point.x, point.y);
-        try {
-            while (!map.get(newPoint).equals(WATER_CHAR)) {
-                if (map.get(newPoint).equals(HIT_CHAR) && !list.contains(newPoint)) {
-                    list.add(newPoint);
-                }
-                newPoint = newPoint.add(1, 0);
-                if (map.get(newPoint).equals(SHIP_CHAR)) {
-                    shipsIsNearFlag = true;
-                    break;
-                }
-
-            }
-
-            newPoint = new Point(point.x, point.y);
-            while (!map.get(newPoint).equals(WATER_CHAR)) {
-                if (map.get(newPoint).equals(HIT_CHAR) && !list.contains(newPoint)) {
-                    list.add(newPoint);
-                }
-                newPoint = newPoint.add(-1, 0);
-                if (map.get(newPoint).equals(SHIP_CHAR)) {
-                    shipsIsNearFlag = true;
-                    break;
-                }
-
-            }
-
-            newPoint = new Point(point.x, point.y);
-            while (!map.get(newPoint).equals(WATER_CHAR)) {
-                if (map.get(newPoint).equals(HIT_CHAR) && !list.contains(newPoint)) {
-                    list.add(newPoint);
-                }
-                newPoint = newPoint.add(0, 1);
-                if (map.get(newPoint).equals(SHIP_CHAR)) {
-                    shipsIsNearFlag = true;
-                    break;
-                }
-            }
-
-            newPoint = new Point(point.x, point.y);
-            while (!map.get(newPoint).equals(WATER_CHAR)) {
-                if (map.get(newPoint).equals(HIT_CHAR) && !list.contains(newPoint)) {
-                    list.add(newPoint);
-                }
-                newPoint = newPoint.add(0, -1);
-                if (map.get(newPoint).equals(SHIP_CHAR)) {
-                    shipsIsNearFlag = true;
-                    break;
-                }
-            }
-        }
-        catch (NullPointerException e){
-            e.printStackTrace();
-        }
-        if (!shipsIsNearFlag) {
-            for (var p : list) {
-                try {
-                    openNearField(map, hiddenMap, p);
-                }
-                catch (Exception e){
-                    break;
-                }
-            }
-        }
-    }
-
-
-    private void openNearField(Map<Point, String> map, Map<Point, String> hiddenMap, Point point) throws Exception {
-        for (int x = -1; x < 2; x++) {
-            for (int y = -1; y < 2; y++) {
-                try {
-                    if (map.get(point.add(x, y)).equals(WATER_CHAR)) {
-                        hiddenMap.replace(point.add(x, y), MISS_CHAR);
-                        map.replace(point.add(x, y), MISS_CHAR);
-                    }
-                } catch (NullPointerException e){
-                    String a = "";
-                }
-                if (map.get(point.add(x, y)).equals(SHIP_CHAR))
-                    throw new Exception("Ship is near");
-            }
-        }
     }
 
     private HashMap<Point, String> generateMap(){
